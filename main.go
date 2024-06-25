@@ -38,15 +38,15 @@ func NewTodo(title string) {
 
 // add a bullet point to a todo list
 func AddBulletPoint(todoID int, content string) {
-	for i, todo := range Todolists {
-		if todo.ID == todoID {
-			todo.bulletPointIDCounter++
+	for i := range Todolists {
+		if Todolists[i].ID == todoID {
+			Todolists[i].bulletPointIDCounter++
 			newBulletPoint := BulletPoint{
-				ID:      todo.bulletPointIDCounter,
+				ID:      Todolists[i].bulletPointIDCounter,
 				Content: content,
 			}
 			Todolists[i].BulletPoints = append(Todolists[i].BulletPoints, newBulletPoint)
-			fmt.Printf("Bullet point with ID %d added to todo with ID %d Title %v \n content: %v", todo.bulletPointIDCounter, todoID, todo.Title, content)
+			fmt.Printf("Bullet point with ID %d content: %v added to todo with ID %d Title %v  \n", Todolists[i].bulletPointIDCounter, content, todoID, Todolists[i].Title)
 			return
 		}
 	}
@@ -54,5 +54,14 @@ func AddBulletPoint(todoID int, content string) {
 }
 
 func main() {
-
+	NewTodo("First Todo")
+	// NewTodo("Second Todo")
+	AddBulletPoint(1, "11111111111111111")
+	AddBulletPoint(1, "222222222222")
+	for _, todo := range Todolists {
+		fmt.Printf("Todo ID %d Title %v\n", todo.ID, todo.Title)
+		for _, bulletPoint := range todo.BulletPoints {
+			fmt.Printf("ID %d - Content %v\n", bulletPoint.ID, bulletPoint.Content)
+		}
+	}
 }
