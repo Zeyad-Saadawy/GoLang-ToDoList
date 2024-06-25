@@ -93,6 +93,19 @@ func BulletPointCompleted(todoID int, bulletPointID int) {
 		fmt.Printf("Todo with ID %d not found\n", todoID)
 	}
 }
+
+// rename a todo
+func RenameTodoList(todoID int, newTitle string) {
+	for i := range Todolists {
+		if Todolists[i].ID == todoID {
+			Todolists[i].Title = newTitle
+			fmt.Printf("Todo with ID %d renamed to %v\n", todoID, newTitle)
+			return
+		}
+	}
+	fmt.Printf("Todo with ID %d not found\n", todoID)
+
+}
 func main() {
 	NewTodo("First Todo")
 	AddBulletPoint(1, "11111111111111111")
@@ -116,6 +129,7 @@ func main() {
 	fmt.Println("-----------------")
 	DeleteBulletPoint(1, 1)
 	BulletPointCompleted(1, 2)
+	RenameTodoList(2, "Second Todo Renamed")
 	for _, todo := range Todolists {
 		fmt.Printf("Todo ID %d Title %v\n", todo.ID, todo.Title)
 		for _, bulletPoint := range todo.BulletPoints {
