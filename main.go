@@ -33,7 +33,7 @@ func NewTodo(title string) {
 		BulletPoints: []BulletPoint{},
 	}
 	Todolists = append(Todolists, newtodo)
-	fmt.Printf("Todo with ID %d created\n", todoIDCounter)
+	fmt.Printf("Todo with ID %d and title %v created\n", todoIDCounter, title)
 }
 
 // add a bullet point to a todo list
@@ -46,7 +46,7 @@ func AddBulletPoint(todoID int, content string) {
 				Content: content,
 			}
 			Todolists[i].BulletPoints = append(Todolists[i].BulletPoints, newBulletPoint)
-			fmt.Printf("Bullet point with ID %d added to todo with ID %d\n", todo.bulletPointIDCounter, todoID)
+			fmt.Printf("Bullet point with ID %d added to todo with ID %d Title %v \n content: %v", todo.bulletPointIDCounter, todoID, todo.Title, content)
 			return
 		}
 	}
