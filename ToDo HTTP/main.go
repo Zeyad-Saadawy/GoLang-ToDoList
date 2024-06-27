@@ -182,6 +182,6 @@ func todoHandlers() http.Handler {
 }
 func checkErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to connect to MongoDB at %s: %v", hostName, err)
 	}
 }
