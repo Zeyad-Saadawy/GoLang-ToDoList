@@ -101,6 +101,7 @@ func fetchTodos(w http.ResponseWriter, r *http.Request) {
 	rnd.JSON(w, http.StatusOK, renderer.M{"data": todolist})
 }
 
+// Create a new todo
 func createTodo(w http.ResponseWriter, r *http.Request) {
 	var t todo
 	if err := json.NewDecoder(r.Body).Decode(&t); err != nil {
