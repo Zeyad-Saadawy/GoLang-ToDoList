@@ -104,12 +104,16 @@ func fetchTodos(w http.ResponseWriter, r *http.Request) {
 // Create a new todo
 func createTodo(w http.ResponseWriter, r *http.Request) {
 	var t todo
+
 	if err := json.NewDecoder(r.Body).Decode(&t); err != nil {
-		rnd.JSON(w, http.StatusBadRequest, renderer.M{"message": "invalid request payload", "error": err.Error()})
+		rnd.JSON(w, http.StatusProcessing, err)
 		return
 	}
+
 	if t.Title == "" {
-		rnd.JSON(w, http.StatusBadRequest, renderer.M{"message": "title is required"})
+		rnd.JSON(w, http.StatusBadRequest, renderer.M{
+			"message": "The title is required",
+		})
 		return
 	}
 
@@ -120,13 +124,13 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 		CreatedAt: time.Now(),
 	}
 
-	_, err := db.Collection(collName).InsertOne(context.Background(), tm)
-	if err != nil {
-		rnd.JSON(w, http.StatusProcessing, renderer.M{"message": "failed to create todo", "error": err.Error()})
-		return
-	}
+	_, err := db.Collection(collName).InsertOne(context.TODO(), tm)
+	checkErr(err)
 
-	rnd.JSON(w, http.StatusCreated, renderer.M{"message": "todo created successfully", "todo_ID": tm.ID.Hex()})
+	rnd.JSON(w, http.StatusCreated, renderer.M{
+		"message": "todo created successfully",
+		"todo_id": tm.ID.Hex(),
+	})
 }
 
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
@@ -154,7 +158,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 	id := strings.TrimSpace(chi.URLParam(r, "id"))
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		rnd.JSON(w, http.StatusBadRequest, renderer.M{"message": "invalid todo ID", "error": err.Error()})
+		rnd.JSON(w, http.StatusBadRequest, renderer.M{"message": "invalid todo ID", "error": err.Error(), "id": id})
 		return
 	}
 
